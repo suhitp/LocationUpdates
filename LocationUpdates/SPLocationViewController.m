@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 com.suhit. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "SPLocationViewController.h"
 
-@interface ViewController ()
+@interface SPLocationViewController ()
 
 @end
 
-@implementation ViewController
+@implementation SPLocationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

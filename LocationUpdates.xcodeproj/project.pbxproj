@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		748F8D7A1A489A8000F06D7F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 748F8D791A489A8000F06D7F /* main.m */; };
 		748F8D7D1A489A8000F06D7F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 748F8D7C1A489A8000F06D7F /* AppDelegate.m */; };
-		748F8D801A489A8000F06D7F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748F8D7F1A489A8000F06D7F /* ViewController.m */; };
+		748F8D801A489A8000F06D7F /* SPLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748F8D7F1A489A8000F06D7F /* SPLocationViewController.m */; };
 		748F8D831A489A8000F06D7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748F8D811A489A8000F06D7F /* Main.storyboard */; };
 		748F8D851A489A8000F06D7F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748F8D841A489A8000F06D7F /* Images.xcassets */; };
 		748F8D881A489A8000F06D7F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 748F8D861A489A8000F06D7F /* LaunchScreen.xib */; };
@@ -32,8 +32,8 @@
 		748F8D791A489A8000F06D7F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		748F8D7B1A489A8000F06D7F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		748F8D7C1A489A8000F06D7F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		748F8D7E1A489A8000F06D7F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		748F8D7F1A489A8000F06D7F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		748F8D7E1A489A8000F06D7F /* SPLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SPLocationViewController.h; sourceTree = "<group>"; };
+		748F8D7F1A489A8000F06D7F /* SPLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPLocationViewController.m; sourceTree = "<group>"; };
 		748F8D821A489A8000F06D7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		748F8D841A489A8000F06D7F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		748F8D871A489A8000F06D7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -83,8 +83,8 @@
 			children = (
 				748F8D7B1A489A8000F06D7F /* AppDelegate.h */,
 				748F8D7C1A489A8000F06D7F /* AppDelegate.m */,
-				748F8D7E1A489A8000F06D7F /* ViewController.h */,
-				748F8D7F1A489A8000F06D7F /* ViewController.m */,
+				748F8D7E1A489A8000F06D7F /* SPLocationViewController.h */,
+				748F8D7F1A489A8000F06D7F /* SPLocationViewController.m */,
 				748F8D811A489A8000F06D7F /* Main.storyboard */,
 				748F8D841A489A8000F06D7F /* Images.xcassets */,
 				748F8D861A489A8000F06D7F /* LaunchScreen.xib */,
@@ -219,7 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				748F8D801A489A8000F06D7F /* ViewController.m in Sources */,
+				748F8D801A489A8000F06D7F /* SPLocationViewController.m in Sources */,
 				748F8D7D1A489A8000F06D7F /* AppDelegate.m in Sources */,
 				748F8D7A1A489A8000F06D7F /* main.m in Sources */,
 			);
@@ -344,6 +344,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LocationUpdates/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -354,6 +355,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LocationUpdates/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
