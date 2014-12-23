@@ -14,6 +14,8 @@
 		748F8D851A489A8000F06D7F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748F8D841A489A8000F06D7F /* Images.xcassets */; };
 		748F8D881A489A8000F06D7F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 748F8D861A489A8000F06D7F /* LaunchScreen.xib */; };
 		748F8D941A489A8000F06D7F /* LocationUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 748F8D931A489A8000F06D7F /* LocationUpdatesTests.m */; };
+		74B4CE851A49DFDF0001ADF5 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B4CE841A49DFDF0001ADF5 /* LocationManager.m */; };
+		74B4CE8B1A49F1800001ADF5 /* WebServicesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B4CE8A1A49F1800001ADF5 /* WebServicesManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		748F8D8D1A489A8000F06D7F /* LocationUpdatesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationUpdatesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		748F8D921A489A8000F06D7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		748F8D931A489A8000F06D7F /* LocationUpdatesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationUpdatesTests.m; sourceTree = "<group>"; };
+		74B4CE831A49DFDF0001ADF5 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		74B4CE841A49DFDF0001ADF5 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		74B4CE891A49F1800001ADF5 /* WebServicesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServicesManager.h; sourceTree = "<group>"; };
+		74B4CE8A1A49F1800001ADF5 /* WebServicesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServicesManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,9 +89,9 @@
 			children = (
 				748F8D7B1A489A8000F06D7F /* AppDelegate.h */,
 				748F8D7C1A489A8000F06D7F /* AppDelegate.m */,
-				748F8D7E1A489A8000F06D7F /* SPLocationViewController.h */,
-				748F8D7F1A489A8000F06D7F /* SPLocationViewController.m */,
 				748F8D811A489A8000F06D7F /* Main.storyboard */,
+				74B4CE871A49E3090001ADF5 /* Model */,
+				74B4CE861A49E2FC0001ADF5 /* Controller */,
 				748F8D841A489A8000F06D7F /* Images.xcassets */,
 				748F8D861A489A8000F06D7F /* LaunchScreen.xib */,
 				748F8D771A489A8000F06D7F /* Supporting Files */,
@@ -117,6 +123,26 @@
 				748F8D921A489A8000F06D7F /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74B4CE861A49E2FC0001ADF5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				748F8D7E1A489A8000F06D7F /* SPLocationViewController.h */,
+				748F8D7F1A489A8000F06D7F /* SPLocationViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		74B4CE871A49E3090001ADF5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				74B4CE831A49DFDF0001ADF5 /* LocationManager.h */,
+				74B4CE841A49DFDF0001ADF5 /* LocationManager.m */,
+				74B4CE891A49F1800001ADF5 /* WebServicesManager.h */,
+				74B4CE8A1A49F1800001ADF5 /* WebServicesManager.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +245,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74B4CE851A49DFDF0001ADF5 /* LocationManager.m in Sources */,
+				74B4CE8B1A49F1800001ADF5 /* WebServicesManager.m in Sources */,
 				748F8D801A489A8000F06D7F /* SPLocationViewController.m in Sources */,
 				748F8D7D1A489A8000F06D7F /* AppDelegate.m in Sources */,
 				748F8D7A1A489A8000F06D7F /* main.m in Sources */,
@@ -414,6 +442,7 @@
 				748F8D991A489A8000F06D7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		748F8D9A1A489A8000F06D7F /* Build configuration list for PBXNativeTarget "LocationUpdatesTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +451,7 @@
 				748F8D9C1A489A8000F06D7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
