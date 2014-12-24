@@ -64,36 +64,27 @@ static NSString* const kPassword = @"phil53";
         [parameterString appendFormat:@"%@=%@", key, parameters[key]];
     }
     
-    _session = [NSURLSession sessionWithConfiguration:self.configuration];
+   
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:kServerURLString]];
     [request setHTTPMethod:@"POST"];
-    
-//    NSString *loginString = [NSString stringWithFormat:@"%@:%@", @"suhit", @"phil53"];
-//    NSData *postData = [loginString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-//    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-//    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
+
     NSString *userPasswordString = [NSString stringWithFormat:@"%@:%@", kUser, kPassword];
     NSData * userPasswordData = [userPasswordString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *base64EncodedCredential = [userPasswordData base64EncodedStringWithOptions:0];
     NSString *authString = [NSString stringWithFormat:@"Basic %@", base64EncodedCredential];
    
-    
     self.configuration.HTTPAdditionalHeaders = @{
-                                                 @"Accept": @"application/json",
-                                                 @"Accept-Language": @"en",
                                                  @"Authorization": authString,
                                                };
-    
+     _session = [NSURLSession sessionWithConfiguration:self.configuration];
     [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (!error) {
             NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
             NSLog(@"%ld", (long)httpResp.statusCode);
-            if ([data length]) {
+            if (httpResp.statusCode == 201 && [data length]) {
                 NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSLog(@"%@", jsonResponse);
                 successBlock(jsonResponse);
             }
         } else {

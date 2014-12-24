@@ -23,6 +23,7 @@ static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpd
 @property (strong, nonatomic) LocationManager *locationManager;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSDate *startTimeDate;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier bgTask;
 @end
 
 @implementation SPLocationViewController
@@ -42,6 +43,7 @@ static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpd
     self.locationManager.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+
 }
 
 - (void)startTimer {
@@ -64,10 +66,10 @@ static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpd
     NSInteger hours = secondsSinceStart / (60 * 60);
     
     if (hours > 0) {
-         self.locationUpdatesLabel.text=[NSString stringWithFormat:@"Last Submited %d minutes ago",hours * 60+minutes];
+         self.locationUpdatesLabel.text=[NSString stringWithFormat:@"Last Submited %ld minutes ago",(hours * 60)+minutes];
     }
     else {
-        self.locationUpdatesLabel.text=[NSString stringWithFormat:@"last Submited %d minutes ago",minutes];
+        self.locationUpdatesLabel.text=[NSString stringWithFormat:@"last Submited %ld minutes ago",(long)minutes];
     }
 }
 
@@ -114,23 +116,36 @@ static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpd
     } else {
         
         NSLog(@"Application Entered Background : Send Location Data To the Server");
-        NSURLSessionConfiguration *configuration = nil;
-        if ([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
-            configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:kBackgroundSessionConfiguration];
-        }
-        else {
-        configuration = [NSURLSessionConfiguration backgroundSessionConfiguration:kBackgroundSessionConfiguration];
-        }
-        configuration.allowsCellularAccess = YES;
+        [self sendBackgroundLocationToServer:self.locationCoordinatesLabel.text];
         
-        WebServicesManager *manager = [[WebServicesManager alloc] initWithSessionConfiguration:configuration];
-        [manager submitUserLocationData:self.locationUpdatesLabel.text success:^(id responseData) {
-            
-        } failure:^(NSError *error) {
-            
-        }];
     }
 }
+
+-(void)sendBackgroundLocationToServer:(NSString *)location
+{
+    
+    _bgTask = [[UIApplication sharedApplication]
+               beginBackgroundTaskWithExpirationHandler:
+               ^{
+                   [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
+               }];
+    
+    WebServicesManager *manager = [[WebServicesManager alloc] init];
+    [manager submitUserLocationData:self.locationUpdatesLabel.text success:^(id responseData) {
+        [self.timer invalidate];
+        [self startTimer];
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    // AFTER ALL THE UPDATES, close the task
+    if (self.bgTask != UIBackgroundTaskInvalid)
+    {
+        [[UIApplication sharedApplication] endBackgroundTask:self.bgTask];
+        self.bgTask = UIBackgroundTaskInvalid;
+    }
+}
+
 
 #pragma mark - UITextField Delegate
 

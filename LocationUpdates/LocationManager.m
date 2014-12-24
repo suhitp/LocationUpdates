@@ -8,6 +8,7 @@
 
 #import "LocationManager.h"
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
 @interface LocationManager () <CLLocationManagerDelegate>
 
@@ -91,10 +92,38 @@
     // We can ignore this error for the scenario of getting a single location fix, because we already have a
     // timeout that will stop the location manager to save power.
     //
-    if ([error code] != kCLErrorLocationUnknown) {
-        [self.locationManager stopUpdatingLocation];
-        self.locationManager.delegate = nil;
+    switch([error code])
+    {
+        case kCLErrorNetwork: // general, network-related error
+        {
+            [self showAlertWithTitle:@"Network Error" withMessage:@"Please check your network connection."];
+            break;
+          
+        }
+        case kCLErrorDenied:
+        {
+           [self showAlertWithTitle:@"Enable Location Service" withMessage:@"Please Enable The Location Service To Use This App."];
+            break;
+        }
+            
+        case kCLErrorLocationUnknown:
+        {
+            [self.locationManager stopUpdatingLocation];
+            self.locationManager.delegate = nil;
+            [self showAlertWithTitle:@"Location Unknown" withMessage:@"Unable To Get The Location"];
+            
+            break;
+        }
+            
+        default:
+            break;
     }
+
+}
+
+- (void)showAlertWithTitle:(NSString *)title withMessage:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 @end
