@@ -12,6 +12,7 @@
 
 static NSString* const kUsernameTextFieldKey = @"UserName";
 static NSString* const kUsername = @"John Doe";
+static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpdates";
 
 @interface SPLocationViewController () <LocationManagerUpdatesDelagte>
 
@@ -20,7 +21,8 @@ static NSString* const kUsername = @"John Doe";
 @property (weak, nonatomic) IBOutlet UILabel *locationUpdatesLabel;
 
 @property (strong, nonatomic) LocationManager *locationManager;
-
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSDate *startTimeDate;
 @end
 
 @implementation SPLocationViewController
@@ -39,7 +41,36 @@ static NSString* const kUsername = @"John Doe";
     _locationManager = [[LocationManager alloc] init];
     self.locationManager.delegate = self;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
+
+- (void)startTimer {
+    
+    self.startTimeDate = [NSDate date];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                              target:self
+                                            selector:@selector(updateLastSubmitTimeData:)
+                                            userInfo:nil
+                                             repeats:YES];
+    
+}
+
+- (void)updateLastSubmitTimeData:(NSTimer *)timer {
+   
+    NSInteger secondsSinceStart = (NSInteger)[[NSDate date] timeIntervalSinceDate:self.startTimeDate];
+    
+    //NSInteger seconds = secondsSinceStart % 60;
+    NSInteger minutes = (secondsSinceStart / 60) % 60;
+    NSInteger hours = secondsSinceStart / (60 * 60);
+    
+    if (hours > 0) {
+         self.locationUpdatesLabel.text=[NSString stringWithFormat:@"Last Submited %d minutes ago",hours * 60+minutes];
+    }
+    else {
+        self.locationUpdatesLabel.text=[NSString stringWithFormat:@"last Submited %d minutes ago",minutes];
+    }
+}
+
 
 #pragma mark -  LocationManager delegate
 
@@ -60,12 +91,45 @@ static NSString* const kUsername = @"John Doe";
     
     WebServicesManager *manager =  [[WebServicesManager alloc] init];
     [manager submitUserLocationData:dataString success:^(id responseData) {
-        
+        [self.timer invalidate];
+        [self startTimer];
     } failure:^(NSError *error) {
         
     }];
+}
+
+#pragma mark - Application EnterBackgroundNotification
+
+- (void)appEnteredBackground:(NSNotification *)notification {
     
-    
+   
+    if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied){
+        
+        NSLog(@"Background Refresh Permission Denied");
+    }
+    else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted){
+        
+        NSLog(@"Background Refresh Permission Restricted");
+        
+    } else {
+        
+        NSLog(@"Application Entered Background : Send Location Data To the Server");
+        NSURLSessionConfiguration *configuration = nil;
+        if ([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
+            configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:kBackgroundSessionConfiguration];
+        }
+        else {
+        configuration = [NSURLSessionConfiguration backgroundSessionConfiguration:kBackgroundSessionConfiguration];
+        }
+        configuration.allowsCellularAccess = YES;
+        
+        WebServicesManager *manager = [[WebServicesManager alloc] initWithSessionConfiguration:configuration];
+        [manager submitUserLocationData:self.locationUpdatesLabel.text success:^(id responseData) {
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 #pragma mark - UITextField Delegate
@@ -101,6 +165,10 @@ static NSString* const kUsername = @"John Doe";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

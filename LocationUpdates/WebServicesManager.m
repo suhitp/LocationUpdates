@@ -44,6 +44,9 @@ static NSString* const kPassword = @"phil53";
     if (!configuration) {
         _configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     }
+    else {
+        _configuration = configuration;
+    }
     return self;
 }
 
