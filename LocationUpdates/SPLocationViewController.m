@@ -89,7 +89,8 @@ static NSString* const kBackgroundSessionConfiguration = @"com.suhit.locationUpd
  */
 - (IBAction)submitLocationUpdate:(id)sender {
     
-   NSString *dataString = [self.nameTextField.text stringByAppendingFormat:@"is now at %@",self.locationCoordinatesLabel.text];
+    NSString *dataString = [self.nameTextField.text stringByAppendingFormat:@"is now at %@",self.locationCoordinatesLabel.text];
+    dataString = [dataString stringByReplacingOccurrencesOfString:@", " withString:@"/"];
     
     WebServicesManager *manager =  [[WebServicesManager alloc] init];
     [manager submitUserLocationData:dataString success:^(id responseData) {
